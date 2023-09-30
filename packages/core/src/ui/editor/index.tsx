@@ -205,16 +205,33 @@ export default function Editor({
     }
   }, [editor, defaultValue, content, hydrated, disableLocalStorage]);
 
+
+  const [showMeta, setShowMeta] = useState(false);
+
+
   return (
+    <>
     <div
       onClick={() => {
         editor?.chain().focus().run();
       }}
       className={className}
-    >
+      >
+
       {editor && <EditorBubbleMenu editor={editor} />}
       {editor?.isActive("image") && <ImageResizer editor={editor} />}
       <EditorContent editor={editor} />
     </div>
+
+    <section>
+      <button onClick={() => setShowMeta(!showMeta)}>Get Raw Editor Code</button>
+
+    {showMeta && (
+        <pre>
+          {JSON.stringify(content, null, 2)}
+        </pre>
+)}
+</section>
+      </>
   );
 }
